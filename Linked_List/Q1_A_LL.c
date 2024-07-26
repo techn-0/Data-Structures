@@ -89,30 +89,39 @@ int main()
 int insertSortedLL(LinkedList *ll, int item)
 {
 	/* add your code here */
+	// 원본의 헤드가 비었다면 바로 삽입하고 리턴 인덱스
 	// 중복확인 중복이면 리턴 -1
 	// 오름차순 - 추가할 값을  i인덱스 값들과 비교
 
-	// 추가할 값이 i보다 작으면 i-1에 삽입
-	//		i-1 원소의 넥스트에 현재 추가할 요소의 주소할당
-	//		추가할 원소의 넥스트에 i의 주소 할당
+	// 추가할 값이 i보다 작으면 삽입
 
 	// 추가할 값이 i보다 크면 다음 값과 비교
 
 	// 추가한 항목 인덱스 리턴
-	// 함수 완료 실패시 -1 리턴
-	int i = 0;
-	ListNode *cur = NULL, *temp;
-
-	if (ll->head == NULL)
 	{
-		ll->head = malloc(sizeof(ListNode));
-		ll->head->next = NULL;
-		ll->head->item = item;
-		++(ll->size);
-		return 0;
+		if (ll->head == NULL) // 원본의 헤드가 비었다면
+		{
+			return insertNode(ll, 0, item);
+		}
+
+		ListNode *cur = ll->head;
+		int index = 0;
+
+		while (cur != NULL) // 중복이라면
+		{
+			if (cur->item == item)
+				return -1;
+
+			if (cur->item > item)
+			{
+				return insertNode(ll, index, item);
+			}
+			cur = cur->next;
+			index++;
+		}
+		return insertNode(ll, index, item);
 	}
 }
-
 ///////////////////////////////////////////////////////////////////////////////////
 
 void printList(LinkedList *ll)
