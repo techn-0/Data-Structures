@@ -112,14 +112,16 @@ int insertSortedLL(LinkedList *ll, int item)
 			if (cur->item == item)
 				return -1;
 
-			if (cur->item > item)
+			else if (cur->item > item)
 			{
-				return insertNode(ll, index, item);
+				insertNode(ll, index, item);
+				return index; //
 			}
 			cur = cur->next;
 			index++;
 		}
-		return insertNode(ll, index, item);
+		insertNode(ll, index, item);
+		return index;
 	}
 }
 ///////////////////////////////////////////////////////////////////////////////////
