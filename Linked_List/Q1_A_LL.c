@@ -98,31 +98,30 @@ int insertSortedLL(LinkedList *ll, int item)
 	// 추가할 값이 i보다 크면 다음 값과 비교
 
 	// 추가한 항목 인덱스 리턴
+
+	if (ll->head == NULL) // 원본의 헤드가 비었다면
 	{
-		if (ll->head == NULL) // 원본의 헤드가 비었다면
-		{
-			return insertNode(ll, 0, item);
-		}
-
-		ListNode *cur = ll->head;
-		int index = 0;
-
-		while (cur != NULL) // 중복이라면
-		{
-			if (cur->item == item)
-				return -1;
-
-			else if (cur->item > item)
-			{
-				insertNode(ll, index, item);
-				return index; //
-			}
-			cur = cur->next;
-			index++;
-		}
-		insertNode(ll, index, item);
-		return index;
+		return insertNode(ll, 0, item);
 	}
+
+	ListNode *cur = ll->head;
+	int index = 0;
+
+	while (cur != NULL) // 중복이라면
+	{
+		if (cur->item == item)
+			return -1;
+
+		else if (cur->item > item)
+		{
+			insertNode(ll, index, item);
+			return index; //
+		}
+		cur = cur->next;
+		index++;
+	}
+	insertNode(ll, index, item);
+	return index;
 }
 ///////////////////////////////////////////////////////////////////////////////////
 
