@@ -86,7 +86,7 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int insertSortedLL(LinkedList *ll, int item)
+int insertSortedLL(LinkedList *ll, int item) // 아이템은 입력받은 값
 {
 	/* add your code here */
 	// 원본의 헤드가 비었다면 바로 삽입하고 리턴 인덱스
@@ -107,9 +107,9 @@ int insertSortedLL(LinkedList *ll, int item)
 	ListNode *cur = ll->head;
 	int index = 0;
 
-	while (cur != NULL) // 중복이라면
+	while (cur != NULL)
 	{
-		if (cur->item == item)
+		if (cur->item == item) // 중복이라면
 			return -1;
 
 		else if (cur->item > item)

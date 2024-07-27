@@ -2,7 +2,7 @@
 
 /* CE1007/CZ1007 Data Structures
 Lab Test: Section A - Linked List Questions
-Purpose: Implementing the required functions for Question 5 */
+Purpose: Implementing the required functions for Question 2 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -23,106 +23,104 @@ typedef struct _linkedlist
 	ListNode *head;
 } LinkedList; // You should not change the definition of LinkedList
 
-///////////////////////// function prototypes ////////////////////////////////////
+//////////////////////// function prototypes /////////////////////////////////////
 
 // You should not change the prototype of this function
-void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList);
+void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2);
 
 void printList(LinkedList *ll);
-void removeAllItems(LinkedList *l);
+void removeAllItems(LinkedList *ll);
 ListNode *findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
-///////////////////////////// main() /////////////////////////////////////////////
+//////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
-	int c, i;
-	LinkedList ll;
-	LinkedList resultFrontList, resultBackList;
+	LinkedList ll1, ll2;
+	int c, i, j;
+	c = 1;
+	// Initialize the linked list 1 as an empty linked list
+	ll1.head = NULL;
+	ll1.size = 0;
 
-	// Initialize the linked list as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
+	// Initialize the linked list 2 as an empty linked list
+	ll2.head = NULL;
+	ll2.size = 0;
 
-	// Initialize the front linked list as an empty linked list
-	resultFrontList.head = NULL;
-	resultFrontList.size = 0;
-
-	// Initialize the back linked list as an empty linked list
-	resultBackList.head = NULL;
-	resultBackList.size = 0;
-
-	printf("1: Insert an integer to the linked list:\n");
-	printf("2: Split the linked list into two linked lists, frontList and backList:\n");
+	printf("1: Insert an integer to the linked list 1:\n");
+	printf("2: Insert an integer to the linked list 2:\n");
+	printf("3: Create the alternate merged linked list:\n");
 	printf("0: Quit:\n");
 
 	while (c != 0)
 	{
-		printf("Please input your choice(1/2/0): ");
+		printf("Please input your choice(1/2/3/0): ");
 		scanf("%d", &c);
 
 		switch (c)
 		{
 		case 1:
-			printf("Input an integer that you want to add to the linked list: ");
+			printf("Input an integer that you want to add to the linked list 1: ");
 			scanf("%d", &i);
-			insertNode(&ll, ll.size, i);
-			printf("The resulting linked list is: ");
-			printList(&ll);
+			j = insertNode(&ll1, ll1.size, i);
+			printf("Linked list 1: ");
+			printList(&ll1);
 			break;
 		case 2:
-			printf("The resulting linked lists after splitting the given linked list are:\n");
-			frontBackSplitLinkedList(&ll, &resultFrontList, &resultBackList); // You need to code this function
-			printf("Front linked list: ");
-			printList(&resultFrontList);
-			printf("Back linked list: ");
-			printList(&resultBackList);
-			printf("\n");
-			removeAllItems(&ll);
-			removeAllItems(&resultFrontList);
-			removeAllItems(&resultBackList);
+			printf("Input an integer that you want to add to the linked list 2: ");
+			scanf("%d", &i);
+			j = insertNode(&ll2, ll2.size, i);
+			printf("Linked list 2: ");
+			printList(&ll2);
+			break;
+		case 3:
+			printf("The resulting linked lists after merging the given linked list are:\n");
+			alternateMergeLinkedList(&ll1, &ll2); // You need to code this function
+			printf("The resulting linked list 1: ");
+			printList(&ll1);
+			printf("The resulting linked list 2: ");
+			printList(&ll2);
+			removeAllItems(&ll1);
+			removeAllItems(&ll2);
 			break;
 		case 0:
-			removeAllItems(&ll);
-			removeAllItems(&resultFrontList);
-			removeAllItems(&resultBackList);
+			removeAllItems(&ll1);
+			removeAllItems(&ll2);
 			break;
 		default:
 			printf("Choice unknown;\n");
 			break;
 		}
 	}
-
 	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
+void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
-	/* add your code here */
-	int index;
-	ListNode *L1;
-	int size = (ll->size % 2 != 0) ? ll->size / 2 + 1 : ll->size / 2;
+	int index = 0;
+	ListNode *temp;
 
-	for (index = 0; index < size; index++)
+	while (ll2 != NULL)
 	{
-		L1 = findNode(ll, 0);
-		insertNode(resultFrontList, index, L1->item);
-		removeNode(ll, 0);
-	}
-	index = 0;
-	while (ll->size != 0)
-	{
-		L1 = findNode(ll, 0);
-		insertNode(resultBackList, index, L1->item);
-		removeNode(ll, 0);
-		index++;
+		temp = findNode(ll1, index);
+
+		if (temp == NULL)
+		{
+			return;
+		}
+		else if (insertNode(ll1, index, ll2->head->item) != -1)
+		{
+			return;
+		}
+		removeNode(ll2, 0);
+
+		index += 2;
 	}
 }
-
 ///////////////////////////////////////////////////////////////////////////////////
 
 void printList(LinkedList *ll)
@@ -132,6 +130,7 @@ void printList(LinkedList *ll)
 	if (ll == NULL)
 		return;
 	cur = ll->head;
+
 	if (cur == NULL)
 		printf("Empty");
 	while (cur != NULL)

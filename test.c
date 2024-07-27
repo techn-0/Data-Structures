@@ -2,7 +2,7 @@
 
 /* CE1007/CZ1007 Data Structures
 Lab Test: Section A - Linked List Questions
-Purpose: Implementing the required functions for Question 1 */
+Purpose: Implementing the required functions for Question 3 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -23,10 +23,10 @@ typedef struct _linkedlist
     ListNode *head;
 } LinkedList; // You should not change the definition of LinkedList
 
-///////////////////////// function prototypes ////////////////////////////////////
+//////////////////////// function prototypes /////////////////////////////////////
 
 // You should not change the prototype of this function
-int insertSortedLL(LinkedList *ll, int item);
+void moveOddItemsToBack(LinkedList *ll);
 
 void printList(LinkedList *ll);
 void removeAllItems(LinkedList *ll);
@@ -41,19 +41,17 @@ int main()
     LinkedList ll;
     int c, i, j;
     c = 1;
-
     // Initialize the linked list 1 as an empty linked list
     ll.head = NULL;
     ll.size = 0;
 
-    printf("1: Insert an integer to the sorted linked list:\n");
-    printf("2: Print the index of the most recent input value:\n");
-    printf("3: Print sorted linked list:\n");
-    printf("0: Quit:");
+    printf("1: Insert an integer to the linked list:\n");
+    printf("2: Move all odd integers to the back of the linked list:\n");
+    printf("0: Quit:\n");
 
     while (c != 0)
     {
-        printf("\nPlease input your choice(1/2/3/0): ");
+        printf("Please input your choice(1/2/0): ");
         scanf("%d", &c);
 
         switch (c)
@@ -61,15 +59,13 @@ int main()
         case 1:
             printf("Input an integer that you want to add to the linked list: ");
             scanf("%d", &i);
-            j = insertSortedLL(&ll, i);
+            j = insertNode(&ll, ll.size, i);
             printf("The resulting linked list is: ");
             printList(&ll);
             break;
         case 2:
-            printf("The value %d was added at index %d\n", i, j);
-            break;
-        case 3:
-            printf("The resulting sorted linked list is: ");
+            moveOddItemsToBack(&ll); // You need to code this function
+            printf("The resulting linked list after moving odd integers to the back of the linked list is: ");
             printList(&ll);
             removeAllItems(&ll);
             break;
@@ -86,9 +82,15 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int insertSortedLL(LinkedList *ll, int item)
+void moveOddItemsToBack(LinkedList *ll)
 {
+    /* add your code here */
+    if (ll == NULL || ll->head == NULL || ll->head->next == NULL)
+    {
+        return;
+    }
 }
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 void printList(LinkedList *ll)
