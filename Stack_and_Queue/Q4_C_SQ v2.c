@@ -117,19 +117,19 @@ void reverse(Queue *q)
 {
 	/* add your code here */
 	// 사이즈크기 -1 까지 데큐하고 다시 큐 하면 되는거 아님?
-	Stack st;
-	st.ll.head = NULL;
-	st.ll.size = 0;
-	st.ll.tail = NULL;
+	Stack *st;
+	st->ll.head = NULL;
+	st->ll.size = 0;
+	st->ll.tail = NULL;
 
 	// 큐의 모든 항목을 스택에 푸시
 	while (q->ll.head != NULL)
 	{
-		push(&st, dequeue(q));
+		push(st, dequeue(q));
 	}
 
 	// 스택의 모든 항목을 큐에 다시 인큐
-	while (st.ll.head != NULL)
+	while (st->ll.head != NULL)
 	{
 		enqueue(q, pop(&st));
 	}
