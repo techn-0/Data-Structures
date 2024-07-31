@@ -2,7 +2,7 @@
 
 /* CE1007/CZ1007 Data Structures
 Lab Test: Section F - Binary Search Trees Questions
-Purpose: Implementing the required functions for Question 4 */
+Purpose: Implementing the required functions for Question 2 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -32,11 +32,10 @@ typedef struct _stack
 ///////////////////////// function prototypes ////////////////////////////////////
 
 // You should not change the prototypes of these functions
-void postOrderIterativeS1(BSTNode *node);
+void inOrderTraversal(BSTNode *node);
 
 void insertBSTNode(BSTNode **node, int value);
 
-// You may use the following functions or you may write your own
 void push(Stack *stack, BSTNode *node);
 BSTNode *pop(Stack *s);
 BSTNode *peek(Stack *s);
@@ -55,7 +54,7 @@ int main()
 	root = NULL;
 
 	printf("1: Insert an integer into the binary search tree;\n");
-	printf("2: Print the post-order traversal of the binary search tree;\n");
+	printf("2: Print the in-order traversal of the binary search tree;\n");
 	printf("0: Quit;\n");
 
 	while (c != 0)
@@ -71,8 +70,8 @@ int main()
 			insertBSTNode(&root, i);
 			break;
 		case 2:
-			printf("The resulting post-order traversal of the binary search tree is: ");
-			postOrderIterativeS1(root); // You need to code this function
+			printf("The resulting in-order traversal of the binary search tree is: ");
+			inOrderTraversal(root); // You need to code this function
 			printf("\n");
 			break;
 		case 0:
@@ -89,47 +88,28 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void postOrderIterativeS1(BSTNode *root)
+void inOrderTraversal(BSTNode *root)
 {
-	/* add your code here */
-	BSTNode *node = root;
 	Stack s;
-	s.top = NULL;
-	int cheak = 0; // 이전 출력 노드 기억
+	s.top = NULL; // 스택 초기화
+	BSTNode *node = root;
 
-	while (s.top != NULL || node)
+	while (node != NULL || !isEmpty(&s))
 	{
-		while (node->left != NULL || node->right != NULL) // 현재 노드의 왼쪽 또는 오른쪽 자식이 있을 때까지 반복
+		// 현재 노드가 NULL이 아닐 때까지 왼쪽 자식으로 이동하며 스택에 푸시
+		while (node != NULL)
 		{
-			if (node->left != NULL)			   // 현재 노드의 왼쪽 자식이 존재
-				if (cheak == node->left->item) // 이미 출력한 노드와 같으면 반복문 종료
-					break;
-			if (node->right != NULL)			// 현재 노드의 오른쪽 자식이 존재
-				if (cheak == node->right->item) // 이미 출력한 노드와 같으면 반복문 종료
-					break;
-			if (node == NULL)
-				break;
-
 			push(&s, node);
-			if (node->right != NULL) // 현재 노드의 오른쪽 자식이 존재하면
-			{
-				push(&s, node->right);
-			}
-
-			if (node->left == NULL) // 현재 노드의 왼쪽 자식이 없으면
-			{
-				node = pop(&s);
-				continue;
-			}
 			node = node->left;
 		}
 
-		cheak = node->item;
-		printf("%d", cheak);
-		printf(" ");
+		// 스택에서 노드를 팝하고 방문
 		node = pop(&s);
+		printf("%d ", node->item);
+
+		// 오른쪽 자식으로 이동
+		node = node->right;
 	}
-	return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

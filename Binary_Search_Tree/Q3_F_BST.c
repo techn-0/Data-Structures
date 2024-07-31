@@ -97,22 +97,21 @@ void preOrderIterative(BSTNode *root)
 		s.top = NULL; // 스택 초기화
 		BSTNode *node = root;
 
+		push(&s, node);
+
 		while (!isEmpty(&s))
 		{
-			node = popNode(&s);
-			printf("%d, ", node->item);
-			// 현재 노드가 NULL이 아닐 때까지 왼쪽 자식을 스택에 추가
-			while (node != NULL)
-			{
-				push(&s, node);
-				node = node->left;
-			}
-
-			// 왼쪽 자식이 NULL이면 스택에서 노드를 꺼내어 방문
 			node = pop(&s);
+			printf("%d ", node->item);
 
-			// 현재 노드의 오른쪽 자식을 방문
-			node = node->right;
+			if (node->right != NULL)
+			{
+				push(&s, node->right);
+			}
+			if (node->left != NULL)
+			{
+				push(&s, node->left);
+			}
 		}
 	}
 }
